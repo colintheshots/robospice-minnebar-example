@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textview_lorem_ipsum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:padding="8dp"
+        android:text="@string/textview_text"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/startCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get It Started!"
+        android:textSize="28sp"
+        android:padding="8dp"
+        android:layout_margin="8dp"/>
+
+    <Button
+        android:id="@+id/startGithubCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call with Github Info"
+        android:textSize="28sp"
+        android:padding="8dp"
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:id="@+id/fileContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

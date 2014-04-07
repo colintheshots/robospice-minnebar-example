@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello Minnebar!</string>
+    <string name="app_name">Minnebar Example</string>
+    <string name="textview_text">Enter your phone number in Twilio format, e.g. +15555555555 :</string>
+    <string name="test">Here is Rick</string>
+</resources>
