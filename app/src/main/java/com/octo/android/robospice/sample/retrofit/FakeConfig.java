@@ -6,5 +6,6 @@ package com.octo.android.robospice.sample.retrofit;
 public class RealConfig {
     public static final String twilio_accountsid = "Find me on Twilio.com";
     public static final String twilio_authtoken = "Find me on Twilio.com";
+    public static final String twilio_from_number = "Find me on Twilio.com";
     public static final String github_personal_access_token = "Find me on Github.com";
 }

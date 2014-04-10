@@ -1,7 +1,6 @@
 package com.octo.android.robospice.sample.retrofit;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -33,34 +32,38 @@ public class SampleSpiceActivity extends BaseSampleSpiceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_PROGRESS);
+
         setContentView(R.layout.main);
 
         Button callButton = (Button) findViewById(R.id.startCall);
         if (callButton!=null) {
-            callButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EditText editText1 = (EditText) SampleSpiceActivity.this.findViewById(R.id.editText1);
-                    if (editText1!=null && editText1.getText()!=null) {
-                        CallRequest callRequest = new CallRequest(RealConfig.twilio_accountsid, "+16122236334", editText1.getText().toString(), "http://twimlets.com/holdmusic?Bucket=twimletholdmusic");
-                        getTwilioSpiceManager().execute(callRequest, "twilioCall", DurationInMillis.ONE_SECOND * 5, new CallRequestListener());
-                    }
-                }
-            });
+            callButton.setOnClickListener(twilioCallOnClickListener);
         }
 
         Button githubButton = (Button) findViewById(R.id.startGithubCall);
         if (githubButton!=null) {
-            githubButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    GistsRequest gistsRequest = new GistsRequest();
-                    getGithubSpiceManager().execute(gistsRequest, "gistsRequest", DurationInMillis.ALWAYS_EXPIRED, new GithubRequestListener());
-                }
-            });
+            githubButton.setOnClickListener(gistTwilioCallOnClickListener);
         }
     }
+
+    private final View.OnClickListener twilioCallOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            EditText editText1 = (EditText) SampleSpiceActivity.this.findViewById(R.id.editText1);
+            if (editText1!=null && editText1.getText()!=null) {
+
+                CallRequest callRequest = new CallRequest(RealConfig.twilio_accountsid, RealConfig.twilio_from_number, editText1.getText().toString(), "http://twimlets.com/holdmusic?Bucket=twimletholdmusic");
+                getTwilioSpiceManager().execute(callRequest, "twilioCall", DurationInMillis.ONE_SECOND * 5, new CallRequestListener());
+            }
+        }
+    };
+
+    private final View.OnClickListener gistTwilioCallOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getGithubSpiceManager().execute(new GistsRequest(), "gistsRequest", DurationInMillis.ALWAYS_EXPIRED, new GithubRequestListener());
+        }
+    };
 
     private final class CallRequestListener implements RequestListener<CallResponse> {
 
@@ -98,22 +101,25 @@ public class SampleSpiceActivity extends BaseSampleSpiceActivity {
 
         @Override
         public void onRequestSuccess(GistDetail gistDetail) {
+
             List<String> keysAsArray = new ArrayList<String>(gistDetail.getFiles().keySet());
             String content = gistDetail.getFiles().get(keysAsArray.get(0)).getContent();
-            Log.d("GistContent",content);
+
             TextView fileContent = (TextView) SampleSpiceActivity.this.findViewById(R.id.fileContent);
             if (fileContent!=null) {
                 fileContent.setText(content);
             }
+
             EditText editText1 = (EditText) SampleSpiceActivity.this.findViewById(R.id.editText1);
             if (editText1!=null && editText1.getText()!=null) {
+
                 CallRequest callRequest = null;
                 try {
-                    callRequest = new CallRequest(RealConfig.twilio_accountsid, "+16122236334", editText1.getText().toString(), "http://twimlets.com/menu?Message=" + URLEncoder.encode(content, "UTF-8"));
+                    callRequest = new CallRequest(RealConfig.twilio_accountsid, RealConfig.twilio_from_number, editText1.getText().toString(), "http://twimlets.com/menu?Message=" + URLEncoder.encode(content, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
-
-
+                    e.printStackTrace();
                 }
+
                 getTwilioSpiceManager().execute(callRequest, "textCall", DurationInMillis.ONE_SECOND * 5, new CallRequestListener());
             }
         }
